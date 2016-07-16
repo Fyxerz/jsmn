@@ -37,22 +37,31 @@ function splitByLines(file) {
 // Check if something is nested.
 	// Count how many tabs
 function checkLevel(line) {
-	// Create an indentation level count
-	let count;
-	line.split('\t').forEach(item => console.log(item))
+	const choppedLine = line.split('\t')
+	return {
+		// Indentation level
+		level: choppedLine.length,
+		// Content of line after indentation
+		content: choppedLine.filter(item => item.length > 0).reduce(item => item)
+	}
 }
 
-const lines = splitByLines(readFile('./file.jsmn'))
+// Parse into JSON
 
-for (var i = 0; i < lines.length; i++) {
-	console.log(lines[i].split('\t'))
-}
-
-console.log(splitByLines(readFile('./file.jsmn')))
 	// Check if tabs are more same or less than previous - If they are more, then get last object as parent.
 // Check type of content
 	// Variable
 	// Array
 	// Object
 
-// Parse into JSON
+
+
+// EXECUTION
+
+// Get all lines in file
+const lines = splitByLines(readFile('./file.jsmn'))
+
+// For every line create an objext with the level and the content
+for (var i = 0; i < lines.length; i++) {
+	console.log(checkLevel(lines[i]))
+}
