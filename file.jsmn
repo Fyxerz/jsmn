@@ -1,3 +1,6 @@
 .
 	#
 		myVar: "some text"
+	#
+			something: true
+.lastObj
