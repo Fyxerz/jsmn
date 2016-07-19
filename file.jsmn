@@ -1,6 +1,6 @@
 .
 	#
-		myVar: "some text"
+		myVar: some text
 	#
-			something: true
-.lastObj
+		something: true
+	#

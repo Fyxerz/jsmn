@@ -43,7 +43,9 @@ function sanitize(line) {
 		// Content of line after indentation
 		content: choppedLine
 			.filter(item => item.length > 0)
-			.reduce(item => item)
+			.reduce(item => item),
+		// Children property to be used later for nesting
+		children: []
 	}
 }
 
@@ -65,17 +67,49 @@ function parsedContent(line) {
 	// If content start with letter set as prop, no slice.
 		default:
 			line.type = 'property'		
+			// Add speech marks to values.
 	}
 
 	return line
+}
+
+// Nest stuff
+function nestContent(objectArray) {
+	// Set reference for each level
+	const references = {}
+	const allLines = []
+	// Check for level
+	objectArray.forEach(function(item) {
+		// if (references[item.level] == undefined) {
+		// 	references[item.level] = item
+		// }
+		// else if (references[item.level] !== undefined) {
+		// 	references[item.level] = item
+		// }
+		references[item.level] = item
+		if (item.level !== 1) {
+			references[item.level -1].children.push(item)
+		}
+
+		if (references[item.level] !== undefined) {
+			allLines.push(references[item.level])	
+		}
+	})	
+	return allLines
+		// If object is a level already seen set as parent object, add to object of lower level.
 }
 
 // EXECUTION
 
 // Get all lines in file
 const lines = splitByLines(readFile('./file.jsmn'))
+const lineObjects = []
 
-// For every line create an objext with the level and the content
+// For every line create an object with the level and the content
 for (var i = 0; i < lines.length; i++) {
-	console.log(parsedContent(sanitize(lines[i])))
+	lineObjects.push(parsedContent(sanitize(lines[i])))
 }
+
+const nestedContent = nestContent(lineObjects)
+
+console.log(nestedContent)
