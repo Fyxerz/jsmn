@@ -1,6 +1,7 @@
-.
-	#
+#someArray
+	.anotherObject
 		myVar: some text
-	#
+	.lem
 		something: true
-	#
+	.bap
+#haha

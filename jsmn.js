@@ -1,22 +1,3 @@
-	// EXAMPLE
-
-// .thisIsAnObject
-// 	thisIsaProperty: "This is a string"
-// 	#anArray:
-// 		"This is an array item"
-// 		1
-// 		.anotherObj
-// 			aVar: "haha"
-// 		"one last item"
-// yetAnotherObj
-// 	anObjProp: true
-
-// #
-// 	.
-// 		objVariable: "Some text"
-
-// OUTPUTS
-
 // Read and output file
 const fs = require('fs')
 
@@ -99,6 +80,21 @@ function nestContent(objectArray) {
 		// If object is a level already seen set as parent object, add to object of lower level.
 }
 
+// Set everything on braces
+function createStructure(objectArray) {
+	// Get level 1 parents
+	const parents = objectArray.filter(item => item.level == 1)
+	// For each of the parents get the children's info and keep doing it until there are no more children
+	parents.forEach(item => {
+		console.log(getChildrenInfo(item))
+	})
+}
+
+function getChildrenInfo(object) {
+	// If object has no children then just return the object
+	return object.content + '{' + (object.children.length > 0 ? getChildrenInfo(object.children[0]) : ' ') + '}'
+}
+
 // EXECUTION
 
 // Get all lines in file
@@ -111,5 +107,5 @@ for (var i = 0; i < lines.length; i++) {
 }
 
 const nestedContent = nestContent(lineObjects)
+console.log(createStructure(nestedContent))
 
-console.log(nestedContent)
